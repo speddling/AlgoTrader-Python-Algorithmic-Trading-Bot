@@ -1,0 +1,45 @@
+# AlgoTrader Configuration
+
+trading:
+  initial_capital: 100000.0
+  currency: "USD"
+  commission_pct: 0.001        # 0.1% per trade
+  slippage_pct: 0.0005         # 0.05% slippage model
+
+risk:
+  max_position_pct: 0.10       # Max 10% of portfolio per position
+  max_portfolio_drawdown: 0.15 # Stop trading at 15% drawdown
+  max_open_positions: 8
+  daily_loss_limit_pct: 0.03   # Halt if down 3% in a day
+  atr_risk_multiplier: 2.0     # Stop loss = 2x ATR
+
+data:
+  provider: "yfinance"         # yfinance | alpaca | polygon
+  bar_size: "1d"               # 1m | 5m | 1h | 1d
+  warmup_bars: 200             # Bars needed to initialize indicators
+
+strategies:
+  sma_crossover:
+    fast_period: 20
+    slow_period: 50
+    signal_threshold: 0.0      # Min crossover gap
+
+  rsi_mean_reversion:
+    rsi_period: 14
+    oversold: 30
+    overbought: 70
+    trend_sma_period: 200      # Only trade with trend
+
+  breakout:
+    lookback_period: 20
+    atr_period: 14
+    breakout_multiplier: 1.5
+
+logging:
+  level: "INFO"
+  file: "logs/trading.log"
+  rotation: "10 MB"
+
+backtest:
+  benchmark_symbol: "SPY"
+  report_dir: "reports/"
